@@ -14,7 +14,7 @@ class TestAccessNestedMap(unittest.TestCase):
     """Tests for utils.access_nested_map function."""
 
     @parameterized.expand([
-        ({"a": 1}, ("b",), 1),
+        ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
     ])
@@ -23,7 +23,7 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertEqual(utils.access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
-        ({}, ("a",)),
+        ({}, ("b",)),
         ({"a": 1}, ("a", "b")),
     ])
     def test_access_nested_map_exception(self, nested_map: Mapping, path: Sequence) -> None:
