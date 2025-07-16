@@ -30,7 +30,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """Tests utils.access_nested_map for expected KeyError exceptions."""
         with self.assertRaises(KeyError) as context:
             utils.access_nested_map(nested_map, path)
-        self.assertEqual(str(context.exception), str(path[-1]))
+        self.assertEqual(str(context.exception), str(path[1]))
 
 if __name__ == '__main__':
     unittest.main()
