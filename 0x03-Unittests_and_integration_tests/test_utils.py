@@ -1,27 +1,26 @@
 #!/usr/bin/env python3
-"""Defines utility functions for accessing nested data structures."""
+"""Unit tests for the utils.py file.
+"""
+import unittest
+from parameterized import parameterized
+import utils
+from typing import (
+    Mapping,
+    Sequence,
+    Any,
+)
 
-from typing import Mapping, Sequence, Any, Tuple, Dict
+class TestAccessNestedMap(unittest.TestCase):
+    """Tests for utils.access_nested_map function."""
 
-def access_nested_map(nested_map: Mapping, path: Sequence) -> Any:
-    """
-    Accesses a specific key in a nested dictionary using a list/tuple of keys.
-    """
-    for key in path:
-        if not isinstance(nested_map, Mapping) or key not in nested_map:
-            raise KeyError(key)
-        nested_map = nested_map[key]
-    return nested_map
+    @parameterized.expand([
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2),
+    ])
+    def test_access_nested_map(self, nested_map: Mapping, path: Sequence, expected: Any) -> None:
+        """Tests utils.access_nested_map with various inputs."""
+        self.assertEqual(utils.access_nested_map(nested_map, path), expected)
 
 if __name__ == '__main__':
-    nested = {"a": 1, "b": {"c": 3}}
-    print(access_nested_map(nested, ("a",)))
-    print(access_nested_map(nested, ("b", "c")))
-    try:
-        print(access_nested_map(nested, ("d",)))
-    except KeyError as e:
-        print(f"KeyError: {e}")
-    try:
-        print(access_nested_map(nested, ("b", "d")))
-    except KeyError as e:
-        print(f"KeyError: {e}")
+    unittest.main()
