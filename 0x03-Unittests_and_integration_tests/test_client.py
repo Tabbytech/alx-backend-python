@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Module for testing the GithubOrgClient class."""
 
 import unittest
 from parameterized import parameterized, parameterized_class
