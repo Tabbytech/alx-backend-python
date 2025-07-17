@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test suite for client.py"""
 import unittest
-from unittest.mock import patch, PropertyMock, Mock
+from unittest.mock import patch, Mock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
@@ -12,15 +12,11 @@ ORG_PAYLOAD = TEST_PAYLOAD[0][0]
 
 
 @parameterized_class([
-    {
-        'org_payload': ORG_PAYLOAD,
-        'repos_payload': TESTS_PAYLOAD,
-        'expected_repos': [
-            'episodes.dart', 'cpp-netlib', 'dagger', 'ios-webkit-debug-proxy',
-            'google.github.io'
-        ],
-        'apache2_repos': []
-    }
+    {'org_payload': ORG_PAYLOAD, 'repos_payload': TESTS_PAYLOAD,
+     'expected_repos': ['episodes.dart', 'cpp-netlib', 'dagger',
+                        'ios-webkit-debug-proxy', 'google.github.io'],
+     'apache2_repos': [repo['name'] for repo in TESTS_PAYLOAD
+                       if repo.get('license') and repo['license']['key'] == 'apache-2.0']},
 ])
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration tests for GithubOrgClient."""
@@ -33,7 +29,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         def side_effect(url):
             """Side effect for mocking requests.get."""
-            if url == GithubOrgClient.ORG_URL.format(org=cls.ORG_PAYLOAD['login']):
+            if url == GithubOrgClient.ORG_URL.format(org=cls.org_payload['login']):
                 return Mock(json=lambda: cls.org_payload)
             if url == cls.org_payload['repos_url']:
                 return Mock(json=lambda: cls.repos_payload)
@@ -54,13 +50,12 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         self.assertEqual(client.public_repos(), self.expected_repos)
 
     def test_public_repos_with_license(self):
-        """Tests that GithubOrgClient.public_repos with a license filter returns
-        the correct list of repos in an integration scenario.
+        """Tests that GithubOrgClient.public_repos with a license filter
+        returns the correct list of repos in an integration scenario.
         """
         client = GithubOrgClient(self.org_payload['login'])
-        apache2_repos = [repo["name"] for repo in self.repos_payload
-                         if repo["license"]["key"] == "apache-2.0"]
-        self.assertEqual(client.public_repos(license="apache-2.0"), apache2_repos)
+        self.assertEqual(client.public_repos(license="apache-2.0"),
+                         self.apache2_repos)
 
 
 class TestGithubOrgClient(unittest.TestCase):
