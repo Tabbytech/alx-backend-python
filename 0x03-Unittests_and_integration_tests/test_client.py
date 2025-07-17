@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test suite for client.py"""
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, PropertyMock, Mock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
@@ -12,9 +12,15 @@ ORG_PAYLOAD = TEST_PAYLOAD[0][0]
 
 
 @parameterized_class([
-    {'org_payload': ORG_PAYLOAD, 'repos_payload': TESTS_PAYLOAD,
-     'expected_repos': ['episodes.dart', 'cpp-netlib', 'dagger',
-                        'ios-webkit-debug-proxy', 'google.github.io'],
+    {'org_payload': ORG_PAYLOAD,
+     'repos_payload': TESTS_PAYLOAD,
+     'expected_repos': [
+         'episodes.dart',
+         'cpp-netlib',
+         'dagger',
+         'ios-webkit-debug-proxy',
+         'google.github.io'
+     ],
      'apache2_repos': [repo['name'] for repo in TESTS_PAYLOAD
                        if repo.get('license') and repo['license']['key'] == 'apache-2.0']},
 ])
@@ -29,7 +35,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         def side_effect(url):
             """Side effect for mocking requests.get."""
-            if url == GithubOrgClient.ORG_URL.format(org=cls.org_payload['login']):
+            org_url = GithubOrgClient.ORG_URL.format(org=cls.org_payload['login'])
+            if url == org_url:
                 return Mock(json=lambda: cls.org_payload)
             if url == cls.org_payload['repos_url']:
                 return Mock(json=lambda: cls.repos_payload)
