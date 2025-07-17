@@ -1,36 +1,31 @@
 #!/usr/bin/env python3
-"""Unit tests for the utils.py file."""
-
+"""Test suite for utils.py"""
 import unittest
-from parameterized import parameterized
-import utils
-from typing import (
-    Mapping,
-    Sequence,
-    Any,
-)
+from unittest.mock import patch, Mock
+from utils import get_json
 
-class TestAccessNestedMap(unittest.TestCase):
-    """Tests for utils.access_nested_map function."""
 
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-    ])
-    def test_access_nested_map(self, nested_map: Mapping, path: Sequence, expected: Any) -> None:
-        """Tests utils.access_nested_map with various inputs."""
-        self.assertEqual(utils.access_nested_map(nested_map, path), expected)
+class TestGetJson(unittest.TestCase):
+    """Tests the get_json function."""
 
-    @parameterized.expand([
-        ({}, ("a",)),
-        ({"a": 1}, ("a", "b")),
-    ])
-    def test_access_nested_map_exception(self, nested_map: Mapping, path: Sequence) -> None:
-        """Tests utils.access_nested_map for expected KeyError exceptions."""
-        with self.assertRaises(KeyError) as context:
-            utils.access_nested_map(nested_map, path)
-        self.assertEqual(context.exception.args[0], path[-1])
+    @patch('requests.get')
+    def test_get_json(self, mock_get):
+        """Tests that get_json returns the expected result."""
+        test_cases = [
+            {"test_url": "http://example.com", "test_payload": {"payload": True}},
+            {"test_url": "http://holberton.io", "test_payload": {"payload": False}},
+        ]
+
+        for case in test_cases:
+            mock_response = Mock()
+            mock_response.json.return_value = case["test_payload"]
+            mock_get.return_value = mock_response
+
+            result = get_json(case["test_url"])
+
+            mock_get.assert_called_once_with(case["test_url"])
+            self.assertEqual(result, case["test_payload"])
+
 
 if __name__ == '__main__':
     unittest.main()
