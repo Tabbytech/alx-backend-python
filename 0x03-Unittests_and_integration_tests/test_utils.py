@@ -1,8 +1,22 @@
 #!/usr/bin/env python3
 """Test suite for utils.py"""
 import unittest
+from parameterized import parameterized
 from unittest.mock import patch, Mock
-from utils import get_json
+from utils import access_nested_map, get_json
+
+
+class TestAccessNestedMap(unittest.TestCase):
+    """Tests the access_nested_map function."""
+
+    @parameterized.expand([
+        ({}, ("a",), 'a'),
+        ({"a": 1}, ("a", "b"), 'b'),
+    ])
+    def test_access_nested_map_exception(self, nested_map, path, expected_msg):
+        """Tests that access_nested_map raises KeyError with the expected message."""
+        with self.assertRaisesRegex(KeyError, expected_msg):
+            access_nested_map(nested_map, path)
 
 
 class TestGetJson(unittest.TestCase):
@@ -25,6 +39,7 @@ class TestGetJson(unittest.TestCase):
 
             mock_get.assert_called_once_with(case["test_url"])
             self.assertEqual(result, case["test_payload"])
+
 
 
 if __name__ == '__main__':
