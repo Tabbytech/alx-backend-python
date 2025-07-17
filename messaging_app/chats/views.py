@@ -1,49 +1,68 @@
-from django.shortcuts import render
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
-from .models import Conversation, Message
-from .serializers import ConversationSerializer, MessageSerializer, UserSerializer
 
-User = get_user_model()
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework import viewsets,status, filters
+from .models import User, Conversation, Message
+from .serializers import  ConversationSerializer,MessageSerializer
 
 class ConversationViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for listing and creating conversations
+    """
+    queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    
+    def create(self,request,*args,**kwargs):
+        """
+        Create a new conversation with participants.
+        """
+        participants = request.data.get("participants", [])
+        if not participants:
+            return Response(
+                {"error":"Participatants field is required"},
+                status = status.HTTP_400_BAD_REQUEST
+            )
+        conversation = Conversation.objects.create()
+        conversation.participants.set(participants)
+        conversation.save()
+        
+        serializer = self.get_serializer(conversation)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def get_queryset(self):
-        return Conversation.objects.filter(participants=self.request.user)
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        conversation = serializer.save()
-        conversation.participants.add(request.user)
-        return Response(self.get_serializer(conversation).data, status=201)
-
-    @action(detail=True, methods=['POST'])
-    def send_message(self, request, pk=None):
-        conversation = self.get_object()
-        if self.request.user not in conversation.participants.all():
-            return Response({'error': 'User not in conversation'}, status=403)
-
-        serializer = MessageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(sender=request.user, conversation=conversation)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-class MessageViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        conversation_id = self.request.query_params.get('conversation_id', None)
-        if conversation_id:
-            conversation = get_object_or_404(Conversation, id=conversation_id, participants=self.request.user)
-            return Message.objects.filter(conversation=conversation)
-        return Message.objects.none() # Only show messages if a conversation ID is provided
-
-# Create your views here.
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer(read_only=True)
+    
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['message_body']
+    ordering_fields = ['sent_at']
+    ordering = ['-sent_at']
+    
+    """
+    ViewSet for listing and creating messages
+    """
+    
+    def create(self,request,*args,**kwargs):
+        """
+        Send a message to an existing conversation.
+        """
+        conversation_id = request.data.get("conversation")
+        message_body = request.data.get("message_body")
+        sender = request.data.get("sender")
+        
+        if not (conversation_id and message_body and sender):
+            return Response(
+                {"error":"conversation_id, message_body and sender fields are required"},
+                status = status.HTTP_400_BAD_REQUEST
+            )
+        
+        message = Message.objects.create(
+            conversation_id = conversation_id,
+            message_body = message_body,
+            sender = sender
+        )
+        
+        serializer = self.get_serializer(message)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
