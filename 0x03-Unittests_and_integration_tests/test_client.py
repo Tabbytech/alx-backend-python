@@ -1,15 +1,13 @@
-
 #!/usr/bin/env python3
 
 import unittest
-from parameterized import parameterized
-from parameterized import parameterized_class
-from unittest.mock import patch, PropertyMock,Mock
+from parameterized import parameterized, parameterized_class
+from unittest.mock import patch, PropertyMock, Mock
 from fixtures import TEST_PAYLOAD
 from client import GithubOrgClient
 from requests import HTTPError
 from typing import Dict
- 
+
 
 class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
@@ -17,16 +15,16 @@ class TestGithubOrgClient(unittest.TestCase):
         ('abc')
     ])
     @patch('client.get_json')
-    def test_org(self,org_name,mock_get_json):
-        expected = {"login":org_name, "id":123}
+    def test_org(self, org_name, mock_get_json):
+        expected = {"login": org_name, "id": 123}
         mock_get_json.return_value = expected
-        
+
         client = GithubOrgClient(org_name)
         result = client.org
-    
-        self.assertEqual(result,expected)
+
+        self.assertEqual(result, expected)
         mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
-        
+
     @patch.object(GithubOrgClient, "org", new_callable=PropertyMock)
     def test_public_repos_url(self, mock_org):
         expected_url = "https://api.github.com/orgs/testorg/repos"
@@ -34,7 +32,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         client = GithubOrgClient("testorg")
         self.assertEqual(client._public_repos_url, expected_url)
-        
+
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
         """ unit-test GithubOrgClient.public_repos """
@@ -63,17 +61,17 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.return_value = repos_payload
 
         with patch.object(GithubOrgClient,
-                         '_public_repos_url',
-                         new_callable=PropertyMock) as mock_public_repos_url:
+                          '_public_repos_url',
+                          new_callable=PropertyMock) as mock_public_repos_url:
             mock_public_repos_url.return_value = "https://api.github.com/orgs/google/repos"
-            
+
             client = GithubOrgClient("google")
             result = client.public_repos(license="apache-2.0")
-            
+
             self.assertEqual(result, apache2_repos)
             mock_public_repos_url.assert_called_once()
             mock_get_json.assert_called_once_with("https://api.github.com/orgs/google/repos")
-            
+
     @parameterized.expand([
         ({'license': {'key': "bsd-3-clause"}}, "bsd-3-clause", True),
         ({'license': {'key': "bsl-1.0"}}, "bsd-3-clause", False),
@@ -82,6 +80,7 @@ class TestGithubOrgClient(unittest.TestCase):
         gh_org_client = GithubOrgClient("google")
         client_has_licence = gh_org_client.has_license(repo, key)
         self.assertEqual(client_has_licence, expected)
+
 
 @parameterized_class([
     {
@@ -126,4 +125,4 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         """Removes the class fixtures after running all tests."""
-        cls.get_patcher.stop()  
+        cls.get_patcher.stop()
