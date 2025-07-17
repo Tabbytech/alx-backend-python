@@ -2,8 +2,65 @@
 """Test suite for client.py"""
 import unittest
 from unittest.mock import patch, PropertyMock, Mock
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
+from fixtures import TEST_PAYLOAD
+
+
+TESTS_PAYLOAD = TEST_PAYLOAD[0][1]
+ORG_PAYLOAD = TEST_PAYLOAD[0][0]
+
+
+@parameterized_class([
+    {
+        'org_payload': ORG_PAYLOAD,
+        'repos_payload': TESTS_PAYLOAD,
+        'expected_repos': [
+            'episodes.dart', 'cpp-netlib', 'dagger', 'ios-webkit-debug-proxy',
+            'google.github.io'
+        ],
+        'apache2_repos': []
+    }
+])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """Integration tests for GithubOrgClient."""
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up class for integration tests."""
+        cls.get_patcher = patch('requests.get')
+        mock_get = cls.get_patcher.start()
+
+        def side_effect(url):
+            """Side effect for mocking requests.get."""
+            if url == GithubOrgClient.ORG_URL.format(org=cls.ORG_PAYLOAD['login']):
+                return Mock(json=lambda: cls.org_payload)
+            if url == cls.org_payload['repos_url']:
+                return Mock(json=lambda: cls.repos_payload)
+            return Mock(json=lambda: [])
+
+        mock_get.side_effect = side_effect
+
+    @classmethod
+    def tearDownClass(cls):
+        """Tear down class for integration tests."""
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Tests that GithubOrgClient.public_repos returns the correct list
+        of repos in an integration scenario.
+        """
+        client = GithubOrgClient(self.org_payload['login'])
+        self.assertEqual(client.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """Tests that GithubOrgClient.public_repos with a license filter returns
+        the correct list of repos in an integration scenario.
+        """
+        client = GithubOrgClient(self.org_payload['login'])
+        apache2_repos = [repo["name"] for repo in self.repos_payload
+                         if repo["license"]["key"] == "apache-2.0"]
+        self.assertEqual(client.public_repos(license="apache-2.0"), apache2_repos)
 
 
 class TestGithubOrgClient(unittest.TestCase):
