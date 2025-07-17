@@ -3,7 +3,7 @@
 import unittest
 from parameterized import parameterized
 from unittest.mock import patch, Mock
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -40,6 +40,30 @@ class TestGetJson(unittest.TestCase):
             mock_get.assert_called_once_with(case["test_url"])
             self.assertEqual(result, case["test_payload"])
 
+
+class TestMemoize(unittest.TestCase):
+    """Tests the memoize decorator."""
+
+    def test_memoize(self):
+        """Tests that memoize decorator works as expected."""
+        class TestClass:
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, 'a_method') as mock_method:
+            test_instance = TestClass()
+            # First call to a_property
+            result1 = test_instance.a_property
+            # Second call to a_property
+            result2 = test_instance.a_property
+
+            mock_method.assert_called_once()
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
 
 
 if __name__ == '__main__':
