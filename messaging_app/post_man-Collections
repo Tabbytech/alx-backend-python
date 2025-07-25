@@ -1,0 +1,332 @@
+
+{
+	"info": {
+		"_postman_id": "642117db-ff40-4c10-a700-560c23ceb2d5",
+		"name": "Messaging App - JWT Test",
+		"description": "Postman collection to test messaging_app JWT authentication, conversation creation, message sending, and secure access.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40115592",
+		"_collection_link": "https://alx-messagingappapitestspostman.postman.co/workspace/messaging_app_api_tests.postman~b9bed188-fe4d-4561-ab38-53d2160c4f05/collection/40115592-642117db-ff40-4c10-a700-560c23ceb2d5?action=share&source=collection_link&creator=40115592"
+	},
+	"item": [
+		{
+			"name": "1 - Login (Get Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzExMTE0LCJpYXQiOjE3NTMzMDkzMTQsImp0aSI6IjMwYjI4YjlhMGY0YzQ2MWZiOGNjNmI0ODc0N2UxYTlhIiwidXNlcl9pZCI6IjcwNDQ2MGI3LTVlMzktNGQwZC04ZDFiLTE3MGEyNWRiZDBhNCJ9.wsAz5vkhi705_OQB1p3r7cPDb5KKyNoW6nnpgO4mkWk\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"blessmart.com@gmail.com\",\n    \"password\": \"cynthia95\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 - Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MzM1ODU3NiwiaWF0IjoxNzUzMjcyMTc2LCJqdGkiOiI0NGY4YWU2ZmVmYTU0M2E0OTc5MjMxNGJlY2I2ZGQ5YSIsInVzZXJfaWQiOiI3MDQ0NjBiNy01ZTM5LTRkMGQtOGQxYi0xNzBhMjVkYmQwYTQifQ.IAfKENmXg3QjcJoyHQ1GIe5Gkac3kS0MMq3Iz5km7Ao\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/refresh/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						"refresh",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3b - Create Conversation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzEwODMyLCJpYXQiOjE3NTMzMDkwMzIsImp0aSI6IjAxMjk1MTk4ZDY3MDRmZjk4Y2Y5N2MzZGRmZmU1ZTgyIiwidXNlcl9pZCI6IjcwNDQ2MGI3LTVlMzktNGQwZC04ZDFiLTE3MGEyNWRiZDBhNCJ9.fqhIAtOmcm6wfWGig159efudbcF6hym6DAH1acaXmig\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"participants\": [\"704460b7-5e39-4d0d-8d1b-170a25dbd0a4\", \"704460b7-5e39-4d0d-8d1b-170a25dbd0a2\"]\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/conversations/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 - Send Message",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzExMzIyLCJpYXQiOjE3NTMzMDk1MjIsImp0aSI6ImMwYTUxYTliM2Q3MjRhNGE4Mjk1MGQwZjgxY2U3ZDdhIiwidXNlcl9pZCI6IjcwNDQ2MGI3LTVlMzktNGQwZC04ZDFiLTE3MGEyNWRiZDBhNCJ9.ksW6G3Bw-qX-lFejFuc7Li7NQ2v7yGd2SyTFfkPIo7o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzExMzIyLCJpYXQiOjE3NTMzMDk1MjIsImp0aSI6ImMwYTUxYTliM2Q3MjRhNGE4Mjk1MGQwZjgxY2U3ZDdhIiwidXNlcl9pZCI6IjcwNDQ2MGI3LTVlMzktNGQwZC04ZDFiLTE3MGEyNWRiZDBhNCJ9.ksW6G3Bw-qX-lFejFuc7Li7NQ2v7yGd2SyTFfkPIo7o"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"conversation\": \"76122b6bc-1c11-4286-842b-accbac56b0ea\",\n    \"message_body\": \"Hello, Blessing!\", \n    \"sender\": \"704460b7-5e39-4d0d-8d1b-170a25dbd0a4\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/messages/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"messages",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 - Fetch Conversations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/conversations/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6 - Fetch Messages (By Conversation)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzExMzIyLCJpYXQiOjE3NTMzMDk1MjIsImp0aSI6ImMwYTUxYTliM2Q3MjRhNGE4Mjk1MGQwZjgxY2U3ZDdhIiwidXNlcl9pZCI6IjcwNDQ2MGI3LTVlMzktNGQwZC04ZDFiLTE3MGEyNWRiZDBhNCJ9.ksW6G3Bw-qX-lFejFuc7Li7NQ2v7yGd2SyTFfkPIo7o\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/messages?conversation={{conversation_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "conversation",
+							"value": "{{conversation_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 - Test Unauthorized Access",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/conversations/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1. register user Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"blessingebele\",\r\n  \"password\": \"cynthia95\",\r\n  \"email\": \"blessmart.com@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "conversation_id",
+			"value": ""
+		},
+		{
+			"key": "user_id1",
+			"value": ""
+		},
+		{
+			"key": "user_id2",
+			"value": ""
+		}
+	]
+}
