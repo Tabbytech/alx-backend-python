@@ -28,9 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    # <--- ADD THESE TWO LINES FOR SIMPLE JWT
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist', # Recommended for token rotation/invalidation
+    'rest_framework_simplejwt.token_blacklist',
     # Assuming you have a 'chats' app in your messaging_app project
     'chats', # <-- Make sure your app name is here if it exists.
 ]
@@ -50,21 +49,23 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication', # <--- CHANGE THIS
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication', # Optional, can be removed if not needed
     ],
+    # <--- ADD THIS SECTION FOR PAGINATION
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20, # Set your desired page size here
 }
 
-# <--- ADD THIS SECTION FOR SIMPLE_JWT CONFIGURATION
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Adjust as needed
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Adjust as needed
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False, # Set to True if you want last_login field updated
+    'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': None, # Uses SECRET_KEY by default
+    'SIGNING_KEY': None,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -78,8 +79,8 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
     'JTI_CLAIM': 'jti',
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1), # For sliding tokens
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=30), # For sliding tokens
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
 }
 
 
