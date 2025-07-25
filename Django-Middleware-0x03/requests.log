@@ -1,0 +1,149 @@
+
+Watching for file changes with StatReloader
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\messaging_app\settings.py changed, reloading.
+2025-07-24 12:22:56.226698 - User: Anonymous - Path: /
+2025-07-24 12:22:56.612084 - User: Anonymous - Path: /favicon.ico
+Not Found: /favicon.ico
+2025-07-24 12:28:13.552291 - User: Anonymous - Path: /
+2025-07-24 12:28:21.107877 - User: Anonymous - Path: /api/conversations/
+2025-07-24 12:28:45.525856 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 12:35:22.178312 - User: Anonymous - Path: /
+2025-07-24 12:43:08.191715 - User: Anonymous - Path: /api/conversations/
+2025-07-24 12:43:43.472500 - User: Anonymous - Path: /api/chats/
+Forbidden: /api/chats/
+2025-07-24 12:44:02.254786 - User: Anonymous - Path: /api/chats/
+Forbidden: /api/chats/
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py changed, reloading.
+2025-07-24 18:00:44.043438 - User: Anonymous - Path: /
+2025-07-24 18:00:44.329389 - User: Anonymous - Path: /favicon.ico
+Not Found: /favicon.ico
+2025-07-24 18:38:14.670950 - User: Anonymous - Path: /api/chat/
+Internal Server Error: /api/chat/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 37, in __call__
+    allowed_start = time(18, 0)  # 6:00 PM
+TypeError: 'module' object is not callable. Did you mean: 'time.time(...)'?
+2025-07-24 18:39:01.146678 - User: Anonymous - Path: /api/chat/
+Internal Server Error: /api/chat/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 37, in __call__
+    allowed_start = time(18, 0)  # 6:00 PM
+TypeError: 'module' object is not callable. Did you mean: 'time.time(...)'?
+2025-07-24 18:41:19.495521 - User: Anonymous - Path: /chat/messages/
+Internal Server Error: /chat/messages/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 37, in __call__
+    allowed_start = time(18, 0)  # 6:00 PM
+TypeError: 'module' object is not callable. Did you mean: 'time.time(...)'?
+2025-07-24 18:41:34.497421 - User: Anonymous - Path: /api/messages/
+Internal Server Error: /api/messages/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 37, in __call__
+    allowed_start = time(18, 0)  # 6:00 PM
+TypeError: 'module' object is not callable. Did you mean: 'time.time(...)'?
+2025-07-24 18:41:56.967463 - User: Anonymous - Path: /api/messages/
+Internal Server Error: /api/messages/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 37, in __call__
+    allowed_start = time(18, 0)  # 6:00 PM
+TypeError: 'module' object is not callable. Did you mean: 'time.time(...)'?
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py changed, reloading.
+2025-07-24 18:51:02.229292 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:52:01.197294 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:52:24.065082 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:53:03.321815 - User: Anonymous - Path: /api/messages/
+Bad Request: /api/messages/
+2025-07-24 18:53:48.214531 - User: Anonymous - Path: /api/conversations/
+2025-07-24 18:55:23.713482 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:55:37.073783 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:55:58.910306 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:56:15.284246 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:56:21.827862 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:56:30.480099 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:56:40.360252 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:57:28.539684 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:57:46.172209 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:58:12.649140 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 18:58:21.159672 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:00:03.051438 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:15.878406 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:18.410716 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:20.338635 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:22.093335 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:23.668608 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:25.336752 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:27.052832 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:01:28.648802 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:02:12.444667 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:02:22.696151 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:02:55.413334 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:03:19.196213 - User: Anonymous - Path: /api/conversations/
+2025-07-24 19:03:24.580442 - User: Anonymous - Path: /chat/messages/
+Internal Server Error: /chat/messages/
+Traceback (most recent call last):
+  File "C:\Users\princ\alx-backend-python\messaging_app\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py", line 63, in __call__
+    current_time = time.time()
+                   ^^^^^^^^^
+AttributeError: type object 'datetime.time' has no attribute 'time'
+2025-07-24 19:03:54.544858 - User: Anonymous - Path: /api/messages
+2025-07-24 19:03:54.550639 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:04:13.524446 - User: Anonymous - Path: /api/conversations/
+2025-07-24 19:15:22.738802 - User: Anonymous - Path: /api/conversations/
+2025-07-24 19:17:56.827147 - User: Anonymous - Path: /api/conversations/
+2025-07-24 19:18:06.378380 - User: Anonymous - Path: /api/messages
+2025-07-24 19:18:06.385660 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:18:22.078516 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+2025-07-24 19:18:31.039910 - User: Anonymous - Path: /api/conversations/
+2025-07-24 19:19:08.821220 - User: Anonymous - Path: /api/messages
+2025-07-24 19:19:08.826218 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\chats\middleware.py changed, reloading.
+2025-07-24 19:26:32.276415 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\messaging_app\settings.py changed, reloading.
+2025-07-24 20:14:16.553799 - User: Anonymous - Path: /api/messages/
+Forbidden: /api/messages/
+C:\Users\princ\alx-backend-python\Django-Middleware-0x03\messaging_app\settings.py changed, reloading.
+2025-07-24 20:19:14.078956 - User: Anonymous - Path: /api/token/
